@@ -59,6 +59,12 @@ const initApp = async () => {
             editCategoryObj.mount(dataCards);
             return;
         }
+
+        if (target.closest('.category__card')) {
+            const dataCards = await fetchCards(categoryItem.dataset.id);
+            allSectionUnmount();
+            createPairsObj.mount(dataCards);
+        }
     });
 };
 
