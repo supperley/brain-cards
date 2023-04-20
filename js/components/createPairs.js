@@ -1,7 +1,7 @@
 import { createElement } from '../helper/createElement.js';
 
 export const createPairs = (app) => {
-    const card = createElement('section', {
+    const pairs = createElement('section', {
         className: 'card section-offset',
     });
 
@@ -9,48 +9,46 @@ export const createPairs = (app) => {
         className: 'container card__container',
     });
 
-    card.append(container);
-
-    const btnReturn = createElement('button', {
+    const buttonReturn = createElement('button', {
         className: 'card__return',
         ariaLabel: 'Возврат к категориям',
     });
 
-    const btnItem = createElement('button', {
+    const buttonCard = createElement('button', {
         className: 'card__item',
     });
 
-    container.append(btnReturn, btnItem);
+    const front = createElement('span', {
+        className: 'card__front',
+        textContent: 'one',
+    });
+
+    const back = createElement('span', {
+        className: 'card__back',
+        textContent: 'two',
+    });
+
+    buttonCard.append(back, front);
+    container.append(buttonReturn, buttonCard);
+    pairs.append(container);
 
     const createCard = (data) => {
-        const textFront = createElement('span', {
-            className: 'card__front',
-            textContent: data[0],
-        });
-
-        const textBack = createElement('span', {
-            className: 'card__back',
-            textContent: data[1],
-        });
-
-        btnItem.append(textBack, textFront);
-
-        btnItem.addEventListener('click', () => {
+        buttonCard.addEventListener('click', () => {
             console.log('qwerty');
-            textFront.classList.toggle('card__front');
-            textBack.classList.toggle('card__back');
+            front.classList.toggle('card__front');
+            back.classList.toggle('card__back');
         });
     };
 
     const mount = (data) => {
-        app.append(card);
+        app.append(pairs);
         console.log(data);
         createCard(data.pairs[0]);
     };
 
     const unmount = () => {
-        card.remove();
+        pairs.remove();
     };
 
-    return { mount, unmount };
+    return { buttonReturn, mount, unmount };
 };

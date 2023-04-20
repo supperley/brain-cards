@@ -12,12 +12,12 @@ const initApp = async () => {
     const headerObj = createHeader(headerParent);
     const categoryObj = createCategory(app);
     const editCategoryObj = createEditCategory(app);
-    const createPairsObj = createPairs(app);
+    const pairsObj = createPairs(app);
 
     const allSectionUnmount = () => {
-        [categoryObj, editCategoryObj].forEach((obj) => obj.unmount());
-        categoryObj.unmount();
-        editCategoryObj.unmount();
+        [categoryObj, editCategoryObj, pairsObj].forEach((obj) =>
+            obj.unmount()
+        );
     };
 
     const renderIndex = async (e) => {
@@ -25,6 +25,8 @@ const initApp = async () => {
         allSectionUnmount();
 
         const categories = await fetchCategories();
+
+        headerObj.updateHeaderTitle('Категории');
 
         if (categories.error) {
             app.append(
@@ -60,11 +62,19 @@ const initApp = async () => {
             return;
         }
 
-        if (target.closest('.category__card')) {
+        if (target.closest('.category__del')) {
+            console.log('Удалить');
+            return;
+        }
+
+        if (categoryItem) {
             const dataCards = await fetchCards(categoryItem.dataset.id);
             allSectionUnmount();
-            createPairsObj.mount(dataCards);
+            headerObj.updateHeaderTitle(dataCards.title);
+            pairsObj.mount(dataCards);
         }
+
+        pairsObj.buttonReturn.addEventListener('click', renderIndex);
     });
 };
 
