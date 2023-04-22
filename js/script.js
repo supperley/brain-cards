@@ -85,6 +85,10 @@ const initApp = async () => {
 
     renderIndex();
 
+    const editCategoryCancelHandler = () => {
+        if (confirm('Отменить изменения?')) renderIndex();
+    };
+
     headerObj.headerLogoLink.addEventListener('click', renderIndex);
 
     headerObj.headerBtn.addEventListener('click', () => {
@@ -93,6 +97,10 @@ const initApp = async () => {
         editCategoryObj.mount();
         editCategoryObj.btnSave.addEventListener('click', postHandler);
         editCategoryObj.btnSave.removeEventListener('click', patchHandler);
+        editCategoryObj.btnCancel.addEventListener(
+            'click',
+            editCategoryCancelHandler
+        );
     });
 
     categoryObj.categoryList.addEventListener('click', async ({ target }) => {
@@ -105,6 +113,10 @@ const initApp = async () => {
             editCategoryObj.mount(dataCards);
             editCategoryObj.btnSave.addEventListener('click', patchHandler);
             editCategoryObj.btnSave.removeEventListener('click', postHandler);
+            editCategoryObj.btnCancel.addEventListener(
+                'click',
+                editCategoryCancelHandler
+            );
             return;
         }
 
